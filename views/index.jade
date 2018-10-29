@@ -3,7 +3,7 @@ extends layout
 block content
   h1 Welcome to the SCU #{title}!
 
-  // Wrapper
+  // WRAPPER
   #wrapper
 
     // BUSINESS LISTING INFO
@@ -28,8 +28,10 @@ block content
     #businessList
       table
         thead
-          th Owner Name
-          th Email
+          th Business Name
+          th Type of Business
+          th Location
+          th Business Description
           th Delete?
         tbody
     // /BUSINESS LIST
@@ -41,13 +43,27 @@ block content
         input#inputOwnerName(type='text', placeholder='Owner Name')
         input#inputOwnerEmail(type='text', placeholder='Email')
         br
-        input#inputBusinessName(type='text', placeholder='Business Name')
         input#inputGradYear(type='text', placeholder='Grad Year')
+        input#inputBusinessName(type='text', placeholder='Business Name')
         br
         input#inputLocation(type='text', placeholder='Business Location')
         input#inputDescription(type='text', placeholder='Description')
+        p Business Type: 
+        select#inputBusinessType(name='types')
+          option(value='Dining') Dining
+          option(value='Retail') Retail
+          option(value='Entertainent') Entertainment
+          option(value='Finance') Finance
+          option(value='Other') Other
+        br
         br
         button#btnAddListing Add Listing
+        p
     // /ADD LISTING
+    
+    // FILTER LISTINGS
+    #filterListings
+    h2 Search for Listings
+    // /FILTER LISTINGS
 
   // /WRAPPER

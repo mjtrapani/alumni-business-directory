@@ -32,8 +32,10 @@ function populateTable() {
     // For each item in our JSON, add a table row and cells to the content string
     $.each(data, function(){
       tableContent += '<tr>';
-      tableContent += '<td><a href="#" class="linkshowlisting" rel="' + this.ownername + '">' + this.ownername + '</a></td>';
-      tableContent += '<td>' + this.email + '</td>';
+      tableContent += '<td><a href="#" class="linkshowlisting" rel="' + this.businessname + '">' + this.businessname + '</a></td>';
+      tableContent += '<td>' + this.businesstype + '</td>';
+      tableContent += '<td>' + this.location + '</td>';
+      tableContent += '<td>' + this.description + '</td>';
       tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + this._id + '">delete</a></td>';
       tableContent += '</tr>';
     });
@@ -84,9 +86,9 @@ function addListing(event) {
     var newListing = {
       'ownername': $('#addListing fieldset input#inputOwnerName').val(),
       'email': $('#addListing fieldset input#inputOwnerEmail').val(),
-      'phonenum': $('#addListing fieldset input#inputOwnerPhone').val(),
-      'businessname': $('#addListing fieldset input#inputBusinessName').val(),
       'gradyear': $('#addListing fieldset input#inputGradYear').val(),
+      'businessname': $('#addListing fieldset input#inputBusinessName').val(),
+      'businesstype': $('#addListing fieldset select#inputBusinessType').val(),
       'location': $('#addListing fieldset input#inputLocation').val(),
       'description': $('#addListing fieldset input#inputDescription').val()
     }

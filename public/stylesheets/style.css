@@ -42,6 +42,11 @@ a {
 				text-align:center;
 			}
 
+#filterListings {
+  position:absolute;
+  left:0;
+}
+
 #listingInfo {
 	width:250px;
 	position:absolute;
@@ -56,4 +61,23 @@ a {
 fieldset {
 	border:0;
 	padding:0; margin:0;
+}
+
+.dropdown a {color: black;margin: 5px; text-decoration: none;}
+
+.dropdown-menu li:hover .sub-menu {
+    visibility: visible;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+.dropdown-menu .sub-menu {
+    left: 100%;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    margin-top: -1px;
 }
