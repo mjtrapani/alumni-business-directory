@@ -158,17 +158,12 @@ function filterListings(event) {
   // prevent link from firing
   event.preventDefault();
 
-  if ($('#filterListings input#inputLocation') != '') {
-    businessListData.forEach(function(businessListing) {
-      if (businessListing.businesstype != $('#filterListings select#inputBusinessType').val() ||
-          businessListing.location != $('#filterListings input#inputLocation').val()) {
-        businessListing.matched = false;
-      }
-    });
-  }
-  else {
-    alert('Please fill in all fields');
-  }
+  businessListData.forEach(function(businessListing) {
+    if (businessListing.businesstype != $('#filterListings select#inputBusinessType').val() ||
+        businessListing.location != $('#filterListings input#inputLocation').val()) {
+      businessListing.matched = false;
+    }
+  });
 
   repopulateTable();
 }
