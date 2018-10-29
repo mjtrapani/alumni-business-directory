@@ -162,7 +162,7 @@ function filterListings(event) {
     businessListData.forEach(function(businessListing) {
       if (businessListing.businesstype != $('#filterListings select#inputBusinessType').val() ||
           businessListing.location != $('#filterListings input#inputLocation').val()) {
-          businessListing.matched = false;
+        businessListing.matched = false;
       }
     });
   }
