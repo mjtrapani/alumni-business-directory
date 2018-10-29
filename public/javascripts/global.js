@@ -57,9 +57,9 @@ function repopulateTable() {
 
   // For each item in our JSON, add a table row and cells to the content string
   businessListData.forEach(function(businessListing) {
-    if (this.matched) {
+    if (businessListing.matched) {
       tableContent += '<tr>';
-      tableContent += '<td><a href="#" class="linkshowlisting" rel="' + businessListing.businessname + '">' + businessListings.businessname + '</a></td>';
+      tableContent += '<td><a href="#" class="linkshowlisting" rel="' + businessListing.businessname + '">' + businessListing.businessname + '</a></td>';
       tableContent += '<td>' + businessListing.businesstype + '</td>';
       tableContent += '<td>' + businessListing.location + '</td>';
       tableContent += '<td>' + businessListing.description + '</td>';
@@ -160,10 +160,12 @@ function filterListings(event) {
 
   if ($('#filterListings input#inputLocation') != 0) {
     businessListData.forEach(function(businessListing) {
+      console.log(businessListing.matched);
       if (businessListing.businesstype != $('#filterListings select#inputBusinessType').val() ||
           businessListing.location != $('#filterListings input#inputLocation').val()) {
             businessListing.matched = false;
         }
+        console.log(businessListing.matched);
     });
   }
   else {
