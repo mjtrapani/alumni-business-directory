@@ -10,8 +10,11 @@ $(document).ready(function() {
   // ownername link click
 	$('#businessList table tbody').on('click', 'td a.linkshowlisting', showListingInfo);
 
-	  // Add Listing button click
+	 // Add Listing button click
   $('#btnAddListing').on('click', addListing);
+
+  // Filter Listings on button click
+  $('#btnFilterListings').on('click', filterListings);
 
    // Delete Listing link click
   $('#businessList table tbody').on('click', 'td a.linkdeletelisting', deleteListing);
@@ -31,18 +34,42 @@ function populateTable() {
   	businessListData = data;
     // For each item in our JSON, add a table row and cells to the content string
     $.each(data, function(){
-      tableContent += '<tr>';
-      tableContent += '<td><a href="#" class="linkshowlisting" rel="' + this.businessname + '">' + this.businessname + '</a></td>';
-      tableContent += '<td>' + this.businesstype + '</td>';
-      tableContent += '<td>' + this.location + '</td>';
-      tableContent += '<td>' + this.description + '</td>';
-      tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + this._id + '">delete</a></td>';
-      tableContent += '</tr>';
+      if (this.matched) {
+        tableContent += '<tr>';
+        tableContent += '<td><a href="#" class="linkshowlisting" rel="' + this.businessname + '">' + this.businessname + '</a></td>';
+        tableContent += '<td>' + this.businesstype + '</td>';
+        tableContent += '<td>' + this.location + '</td>';
+        tableContent += '<td>' + this.description + '</td>';
+        tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + this._id + '">delete</a></td>';
+        tableContent += '</tr>';
+      }
     });
 
     // Inject the whole content string into our existing HTML table
     $('#businessList table tbody').html(tableContent);
   });
+};
+
+function repopulateTable() {
+
+  // Empty content string
+  var tableContent = '';
+
+  // For each item in our JSON, add a table row and cells to the content string
+  businessListData.forEach(function(businessListing) {
+    if (this.matched) {
+      tableContent += '<tr>';
+      tableContent += '<td><a href="#" class="linkshowlisting" rel="' + businessListing.businessname + '">' + businessListings.businessname + '</a></td>';
+      tableContent += '<td>' + businessListing.businesstype + '</td>';
+      tableContent += '<td>' + businessListing.location + '</td>';
+      tableContent += '<td>' + businessListing.description + '</td>';
+      tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + businessListing._id + '">delete</a></td>';
+      tableContent += '</tr>';
+    }
+  });
+
+  // Inject the whole content string into our existing HTML table
+  $('#businessList table tbody').html(tableContent);
 };
 
 // Show Listing Info
@@ -51,7 +78,7 @@ function showListingInfo(event) {
   // Prevent Link from Firing
   event.preventDefault();
 
-  // Retrieve ownername from link rel attribute
+  // Retrieve businessname from link rel attribute
   var thisBusinessName = $(this).attr('rel');
 
   // Get Index of object based on id value
@@ -90,7 +117,8 @@ function addListing(event) {
       'businessname': $('#addListing fieldset input#inputBusinessName').val(),
       'businesstype': $('#addListing fieldset select#inputBusinessType').val(),
       'location': $('#addListing fieldset input#inputLocation').val(),
-      'description': $('#addListing fieldset input#inputDescription').val()
+      'description': $('#addListing fieldset input#inputDescription').val(),
+      'matched': true
     }
 
     // Use AJAX to post the object to our addlisting service
@@ -126,9 +154,27 @@ function addListing(event) {
   }
 };
 
+function filterListings(event) {
+  // prevent link from firing
+  event.preventDefault();
+
+  if ($('#filterListings input#inputLocation') != 0) {
+    businessListData.forEach(function(businessListing) {
+      if (businessListing.businesstype != $('#filterListings select#inputBusinessType').val() ||
+          businessListing.location != $('#filterListings input#inputLocation').val()) {
+            businessListing.matched = false;
+        }
+    });
+  }
+  else {
+    alert('Please fill in all fields');
+  }
+
+  repopulateTable();
+}
+
 // Delete Listing
 function deleteListing(event) {
-
   // prevent link from firing
   event.preventDefault();
 

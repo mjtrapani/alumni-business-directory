@@ -22,7 +22,13 @@ a {
   float:left;
 }
 
+#listingInfo {
+	width:250px;
+}
+
 #businessList {
+  display:inline-block;
+  float:right;
 }
 	#businessList table {
 		border-collapse:separate;
@@ -45,10 +51,6 @@ a {
 				padding:5px 10px;
 				text-align:center;
 			}
-
-#listingInfo {
-	width:250px;
-}
 
 #listingInfo p {
 	padding:15px;

@@ -3,25 +3,27 @@ extends layout
 block content
   #welcome
     h1 Welcome to the SCU #{title}!
+    br
 
   // WRAPPER1
   #wrapper
   
     // BUSINESS LISTING INFO
     #listingInfo
-      h2 Business Listing Info
+      h2 Selected Business Listing Info
       p
         strong Owner Name:
-        |  <span id='listingInfoOwnerName'></span>
+        |  <span id='listingInfoOwnerName'>n/a</span>
         br
         strong Grad Year:
-        |  <span id='listingInfoGradYear'></span>
+        |  <span id='listingInfoGradYear'>n/a</span>
         br
         strong Description:
-        |  <span id='listingInfoDescription'></span>
+        |  <span id='listingInfoDescription'>n/a</span>
         br
         strong Location:
-        |  <span id='listingInfoLocation'></span>
+        |  <span id='listingInfoLocation'>n/a</span>
+      br
     // /BUSINESS LISTING INFO
   
     // ADD LISTING
@@ -46,12 +48,16 @@ block content
         br
         br
         button#btnAddListing Add Listing
-        p
+        br
+        br
+        br
     // /ADD LISTING
     
     // FILTER LISTINGS
     #filterListings
       h2 Search for Listings
+      input#inputLocation(type='text', placeholder='Business Location')
+      br
       p Select Business Type:
       select#inputBusinessType(name='types')
         option(value='Dining') Dining
@@ -60,7 +66,8 @@ block content
         option(value='Finance') Finance
         option(value='Other') Other
       br
-      input#inputLocation(type='text', placeholder='Business Location')
+      br
+      button#btnFilterListings Filter Listings
     // /FILTER LISTINGS
   // /WRAPPER1
 
@@ -75,6 +82,7 @@ block content
         th Business Description
         th Delete?
       tbody
+    br
   // /BUSINESS LIST
 
   // /WRAPPER2
