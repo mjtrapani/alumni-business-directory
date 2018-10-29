@@ -7,7 +7,7 @@ var logger = require('morgan');
 // Database
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/alumni-business-directory');
+var db = monk(73.231.203.15:27017/alumni-business-directory');
 
 var indexRouter = require('./routes/index');
 var listingsRouter = require('./routes/listings');
