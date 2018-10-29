@@ -1,11 +1,12 @@
 extends layout
 
 block content
-  h1 Welcome to the SCU #{title}!
+  #welcome
+    h1 Welcome to the SCU #{title}!
 
-  // WRAPPER
+  // WRAPPER1
   #wrapper
-
+  
     // BUSINESS LISTING INFO
     #listingInfo
       h2 Business Listing Info
@@ -22,23 +23,10 @@ block content
         strong Location:
         |  <span id='listingInfoLocation'></span>
     // /BUSINESS LISTING INFO
-
-    // BUSINESS LIST
-    h2 Business List
-    #businessList
-      table
-        thead
-          th Business Name
-          th Type of Business
-          th Location
-          th Business Description
-          th Delete?
-        tbody
-    // /BUSINESS LIST
-
+  
     // ADD LISTING
-    h2 Add Listing
     #addListing
+      h2 Add Listing
       fieldset
         input#inputOwnerName(type='text', placeholder='Owner Name')
         input#inputOwnerEmail(type='text', placeholder='Email')
@@ -48,7 +36,7 @@ block content
         br
         input#inputLocation(type='text', placeholder='Business Location')
         input#inputDescription(type='text', placeholder='Description')
-        p Business Type: 
+        p Select Business Type: 
         select#inputBusinessType(name='types')
           option(value='Dining') Dining
           option(value='Retail') Retail
@@ -63,7 +51,30 @@ block content
     
     // FILTER LISTINGS
     #filterListings
-    h2 Search for Listings
+      h2 Search for Listings
+      p Select Business Type:
+      select#inputBusinessType(name='types')
+        option(value='Dining') Dining
+        option(value='Retail') Retail
+        option(value='Entertainent') Entertainment
+        option(value='Finance') Finance
+        option(value='Other') Other
+      br
+      input#inputLocation(type='text', placeholder='Business Location')
     // /FILTER LISTINGS
+  // /WRAPPER1
 
-  // /WRAPPER
+  // BUSINESS LIST
+  #businessList
+    h2 Business List
+    table
+      thead
+        th Business Name
+        th Type of Business
+        th Location
+        th Business Description
+        th Delete?
+      tbody
+  // /BUSINESS LIST
+
+  // /WRAPPER2

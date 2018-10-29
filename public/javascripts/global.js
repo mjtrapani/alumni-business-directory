@@ -52,10 +52,10 @@ function showListingInfo(event) {
   event.preventDefault();
 
   // Retrieve ownername from link rel attribute
-  var thisOwnerName = $(this).attr('rel');
+  var thisBusinessName = $(this).attr('rel');
 
   // Get Index of object based on id value
-  var arrayPosition = businessListData.map(function(arrayItem) { return arrayItem.ownername; }).indexOf(thisOwnerName);
+  var arrayPosition = businessListData.map(function(arrayItem) { return arrayItem.businessname; }).indexOf(thisBusinessName);
 
   // Get our Listing Object
   var thisListingObject = businessListData[arrayPosition];
