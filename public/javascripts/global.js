@@ -1,4 +1,4 @@
-// Businesslist data array for filling in info box
+// Businesslist data array for filling in info box and for filtering listings
 var businessListData = [];
 
 // DOM Ready =============================================================
@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 // Functions =============================================================
 
-// Fill table with data
+// Fill table with data from database
 function populateTable() {
 
   // Empty content string
@@ -50,6 +50,7 @@ function populateTable() {
   });
 };
 
+// Fill table with data from businessListData array
 function repopulateTable() {
 
   // Empty content string
@@ -88,13 +89,13 @@ function showListingInfo(event) {
   var thisListingObject = businessListData[arrayPosition];
 
   //Populate Info Box
+  $('#listingInfoBusinessName').text(thisListingObject.businessname);
   $('#listingInfoOwnerName').text(thisListingObject.ownername);
   $('#listingInfoGradYear').text(thisListingObject.gradyear);
-  $('#listingInfoDescription').text(thisListingObject.description);
-  $('#listingInfoLocation').text(thisListingObject.location);
+  $('#listingInfoEmail').text(thisListingObject.email);
 };
 
-// Add Listing
+// Add Listing to business listings table
 function addListing(event) {
 
   // prevent link from firing
@@ -154,6 +155,7 @@ function addListing(event) {
   }
 };
 
+// Filter business listings table according to Location and Business Type criteria
 function filterListings(event) {
   // prevent link from firing
   event.preventDefault();

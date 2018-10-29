@@ -12,17 +12,17 @@ block content
     #listingInfo
       h2 Selected Business Listing Info
       p
+        strong Business Name:
+        |  <span id='listingInfoBusinessName'>n/a</span>
+        br
         strong Owner Name:
         |  <span id='listingInfoOwnerName'>n/a</span>
         br
         strong Grad Year:
         |  <span id='listingInfoGradYear'>n/a</span>
         br
-        strong Description:
-        |  <span id='listingInfoDescription'>n/a</span>
-        br
-        strong Location:
-        |  <span id='listingInfoLocation'>n/a</span>
+        strong Contact Email:
+        |  <span id='listingInfoEmail'>n/a</span>
       br
     // /BUSINESS LISTING INFO
   
@@ -36,14 +36,20 @@ block content
         input#inputGradYear(type='text', placeholder='Grad Year')
         input#inputBusinessName(type='text', placeholder='Business Name')
         br
-        input#inputLocation(type='text', placeholder='Business Location')
+        input#inputLocation(type='text', placeholder='Business Location (City)')
         input#inputDescription(type='text', placeholder='Description')
         p Select Business Type: 
         select#inputBusinessType(name='types')
           option(value='Dining') Dining
           option(value='Retail') Retail
+          option(value='Health Care') Manufacturing
           option(value='Entertainment') Entertainment
           option(value='Finance') Finance
+          option(value='Lifestyle') Lifestyle
+          option(value='Health Care') Health Care
+          option(value='Education') Education
+          option(value='Arts') Arts
+          option(value='Non-Profit') Non-Profit
           option(value='Other') Other
         br
         br
@@ -56,14 +62,20 @@ block content
     // FILTER LISTINGS
     #filterListings
       h2 Search for Listings
-      input#inputLocation(type='text', placeholder='Business Location')
+      input#inputLocation(type='text', placeholder='Business Location (City)')
       br
       p Select Business Type:
       select#inputBusinessType(name='types')
         option(value='Dining') Dining
         option(value='Retail') Retail
+        option(value='Manufacturing') Manufacturing
         option(value='Entertainment') Entertainment
         option(value='Finance') Finance
+        option(value='Lifestyle') Lifestyle
+        option(value='Health Care') Health Care
+        option(value='Education') Education
+        option(value='Arts') Arts
+        option(value='Non-Profit') Non-Profit
         option(value='Other') Other
       br
       br
