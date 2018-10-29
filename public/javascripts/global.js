@@ -1,20 +1,20 @@
-// Userlist data array for filling in info box
-var userListData = [];
+// Businesslist data array for filling in info box
+var businessListData = [];
 
 // DOM Ready =============================================================
 $(document).ready(function() {
 
-  // Populate the user table on initial page load
+  // Populate the listing table on initial page load
   populateTable();
 
-  // Username link click
-	$('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
+  // ownername link click
+	$('#businessList table tbody').on('click', 'td a.linkshowlisting', showListingInfo);
 
-	  // Add User button click
-  $('#btnAddUser').on('click', addUser);
+	  // Add Listing button click
+  $('#btnAddListing').on('click', addListing);
 
-   // Delete User link click
-  $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
+   // Delete Listing link click
+  $('#businessList table tbody').on('click', 'td a.linkdeletelisting', deleteLisitng);
 });
 
 // Functions =============================================================
@@ -26,81 +26,82 @@ function populateTable() {
   var tableContent = '';
 
   // jQuery AJAX call for JSON
-  $.getJSON('/users/userlist', function(data) {
+  $.getJSON('/listings/businesslist', function(data) {
 
-  	userListData = data;
+  	businessListData = data;
     // For each item in our JSON, add a table row and cells to the content string
     $.each(data, function(){
       tableContent += '<tr>';
-      tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.username + '">' + this.username + '</a></td>';
+      tableContent += '<td><a href="#" class="linkshowlisting" rel="' + this.ownername + '">' + this.ownername + '</a></td>';
       tableContent += '<td>' + this.email + '</td>';
-      tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
+      tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + this._id + '">delete</a></td>';
       tableContent += '</tr>';
     });
 
     // Inject the whole content string into our existing HTML table
-    $('#userList table tbody').html(tableContent);
+    $('#businessList table tbody').html(tableContent);
   });
 };
 
-// Show User Info
-function showUserInfo(event) {
+// Show Business Info
+function showListingInfo(event) {
 
   // Prevent Link from Firing
   event.preventDefault();
 
-  // Retrieve username from link rel attribute
-  var thisUserName = $(this).attr('rel');
+  // Retrieve ownername from link rel attribute
+  var thisOwnerName = $(this).attr('rel');
 
   // Get Index of object based on id value
-  var arrayPosition = userListData.map(function(arrayItem) { return arrayItem.username; }).indexOf(thisUserName);
+  var arrayPosition = businessListData.map(function(arrayItem) { return arrayItem.ownername; }).indexOf(thisOwnerName);
 
-  // Get our User Object
-  var thisUserObject = userListData[arrayPosition];
+  // Get our Listing Object
+  var thisListingObject = businesssListData[arrayPosition];
 
   //Populate Info Box
-  $('#userInfoName').text(thisUserObject.fullname);
-  $('#userInfoAge').text(thisUserObject.age);
-  $('#userInfoGender').text(thisUserObject.gender);
-  $('#userInfoLocation').text(thisUserObject.location);
+  $('#listingInfoOwnerName').text(thisListingObject.ownername);
+  $('#listingInfoGradYear').text(thisListingObject.gradyear);
+  $('#listingInfoDescription').text(thisListingObject.description);
+  $('#listingInfoLocation').text(thisListingObject.location);
 };
 
-// Add User
-function addUser(event) {
+// Add Listing
+function addListing(event) {
   event.preventDefault();
 
   // Super basic validation - increase errorCount variable if any fields are blank
   var errorCount = 0;
-  $('#addUser input').each(function(index, val) {
+  $('#addListing input').each(function(index, val) {
     if($(this).val() === '') { errorCount++; }
   });
 
   // Check and make sure errorCount's still at zero
   if(errorCount === 0) {
 
-    // If it is, compile all user info into one object
-    var newUser = {
-      'username': $('#addUser fieldset input#inputUserName').val(),
-      'email': $('#addUser fieldset input#inputUserEmail').val(),
-      'fullname': $('#addUser fieldset input#inputUserFullname').val(),
-      'age': $('#addUser fieldset input#inputUserAge').val(),
-      'location': $('#addUser fieldset input#inputUserLocation').val(),
-      'gender': $('#addUser fieldset input#inputUserGender').val()
+    // If it is, compile all listing info into one object
+    var newListing = {
+      'ownername': $('#addListing fieldset input#inputOwnerName').val(),
+      'email': $('#addListing fieldset input#inputOwnerEmail').val(),
+      'phonenum': $('#addListing fieldset input#inputOwnerPhone').val(),
+      'businessname': $('#addListing fieldset input#inputBusinessName').val(),
+      'gradyear': $('#addListing fieldset input#inputGradYear').val(),
+      'location': $('#addListing fieldset input#inputLocation').val(),
+      'description': $('#addListing fieldset input#inputDescription').val()
     }
 
-    // Use AJAX to post the object to our adduser service
+    // Use AJAX to post the object to our addlisting service
     $.ajax({
       type: 'POST',
-      data: newUser,
-      url: '/users/adduser',
+      data: newListing,
+      url: '/listings/addlisting',
       dataType: 'JSON'
-    }).done(function( response ) {
+    }).done(function(response) {
 
       // Check for successful (blank) response
       if (response.msg === '') {
 
         // Clear the form inputs
-        $('#addUser fieldset input').val('');
+        $('#addListing fieldset input').val('');
 
         // Update the table
         populateTable();
@@ -121,22 +122,22 @@ function addUser(event) {
   }
 };
 
-// Delete User
-function deleteUser(event) {
+// Delete Listing
+function deleteListing(event) {
 
   event.preventDefault();
 
   // Pop up a confirmation dialog
-  var confirmation = confirm('Are you sure you want to delete this user?');
+  var confirmation = confirm('Are you sure you want to delete this listing?');
 
-  // Check and make sure the user confirmed
+  // Check and make sure the listing confirmed
   if (confirmation === true) {
 
     // If they did, do our delete
     $.ajax({
       type: 'DELETE',
-      url: '/users/deleteuser/' + $(this).attr('rel')
-    }).done(function( response ) {
+      url: '/listings/deletelisting/' + $(this).attr('rel')
+    }).done(function(response) {
 
       // Check for a successful (blank) response
       if (response.msg === '') {

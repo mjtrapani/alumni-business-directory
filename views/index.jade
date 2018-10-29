@@ -6,48 +6,48 @@ block content
   // Wrapper
   #wrapper
 
-    // USER INFO
-    #userInfo
-      h2 User Info
+    // BUSINESS LISTING INFO
+    #listingInfo
+      h2 Business Listing Info
       p
-        strong Name:
-        |  <span id='userInfoName'></span>
+        strong Owner Name:
+        |  <span id='listingInfoOwnerName'></span>
         br
-        strong Age:
-        |  <span id='userInfoAge'></span>
+        strong Grad Year:
+        |  <span id='listingInfoGradYear'></span>
         br
-        strong Gender:
-        |  <span id='userInfoGender'></span>
+        strong Description:
+        |  <span id='listingInfoDescription'></span>
         br
         strong Location:
-        |  <span id='userInfoLocation'></span>
-    // /USER INFO
+        |  <span id='listingInfoLocation'></span>
+    // /BUSINESS LISTING INFO
 
-    // USER LIST
-    h2 User List
-    #userList
+    // BUSINESS LIST
+    h2 Business List
+    #businessList
       table
         thead
-          th UserName
+          th Owner Name
           th Email
           th Delete?
         tbody
-    // /USER LIST
+    // /BUSINESS LIST
 
-    // ADD USER
-    h2 Add User
-    #addUser
+    // ADD LISTING
+    h2 Add Listing
+    #addListing
       fieldset
-        input#inputUserName(type='text', placeholder='Username')
-        input#inputUserEmail(type='text', placeholder='Email')
+        input#inputOwnerName(type='text', placeholder='Owner Name')
+        input#inputOwnerEmail(type='text', placeholder='Email')
         br
-        input#inputUserFullname(type='text', placeholder='Full Name')
-        input#inputUserAge(type='text', placeholder='Age')
+        input#inputBusinessName(type='text', placeholder='Business Name')
+        input#inputGradYear(type='text', placeholder='Grad Year')
         br
-        input#inputUserLocation(type='text', placeholder='Location')
-        input#inputUserGender(type='text', placeholder='gender')
+        input#inputLocation(type='text', placeholder='Business Location')
+        input#inputDescription(type='text', placeholder='Description')
         br
-        button#btnAddUser Add User
-    // /ADD USER
+        button#btnAddListing Add Listing
+    // /ADD LISTING
 
   // /WRAPPER
