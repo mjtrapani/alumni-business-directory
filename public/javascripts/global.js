@@ -14,7 +14,7 @@ $(document).ready(function() {
   $('#btnAddListing').on('click', addListing);
 
    // Delete Listing link click
-  $('#businessList table tbody').on('click', 'td a.linkdeletelisting', deleteLisitng);
+  $('#businessList table tbody').on('click', 'td a.linkdeletelisting', deleteListing);
 });
 
 // Functions =============================================================
@@ -43,7 +43,7 @@ function populateTable() {
   });
 };
 
-// Show Business Info
+// Show Listing Info
 function showListingInfo(event) {
 
   // Prevent Link from Firing
@@ -56,7 +56,7 @@ function showListingInfo(event) {
   var arrayPosition = businessListData.map(function(arrayItem) { return arrayItem.ownername; }).indexOf(thisOwnerName);
 
   // Get our Listing Object
-  var thisListingObject = businesssListData[arrayPosition];
+  var thisListingObject = businessListData[arrayPosition];
 
   //Populate Info Box
   $('#listingInfoOwnerName').text(thisListingObject.ownername);
@@ -67,6 +67,8 @@ function showListingInfo(event) {
 
 // Add Listing
 function addListing(event) {
+
+  // prevent link from firing
   event.preventDefault();
 
   // Super basic validation - increase errorCount variable if any fields are blank
@@ -125,6 +127,7 @@ function addListing(event) {
 // Delete Listing
 function deleteListing(event) {
 
+  // prevent link from firing
   event.preventDefault();
 
   // Pop up a confirmation dialog
