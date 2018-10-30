@@ -30,6 +30,7 @@ a {
 #businessList {
   display:inline-block;
   float:right;
+  margin-right: 20px;
 }
 	#businessList table {
 		border-collapse:separate;
@@ -56,6 +57,7 @@ a {
 #unverifiedBusinessList {
   display:inline-block;
   float:right;
+  margin-right:20px;
 }
 	#unverifiedBusinessList table {
 		border-collapse:separate;
