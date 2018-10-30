@@ -3,45 +3,55 @@ var businessListData = [];
 
 // DOM Ready =============================================================
 $(document).ready(function() {
-
-  // Populate the listing table on initial page load
-  populateTable();
+  // Populate the business list and unverified list table on initial page load
+  populateBusinessList();
+  populateUnverifiedList();
 
   // ownername link click
 	$('#businessList table tbody').on('click', 'td a.linkshowlisting', showListingInfo);
 
-	 // Add Listing button click
+  // Add Listing button click
   $('#btnAddListing').on('click', addListing);
 
   // Filter Listings on button click
   $('#btnFilterListings').on('click', filterListings);
 
-   // Delete Listing link click
+  // Delete Listing link click
   $('#businessList table tbody').on('click', 'td a.linkdeletelisting', deleteListing);
+
+  // Approve Listing button click
+  $('#unverifiedBusinessList table tbody').on('click', 'td a.linkapprovelisting', approveListing);
+
+  // unverified list ownername link click
+	$('#unverifiedBusinessList table tbody').on('click', 'td a.linkshowlisting', showListingInfo);
+
+  // unverified list Deny/Delete Listing link click
+  $('#unverifiedBusinessList table tbody').on('click', 'td a.linkdeletelisting', deleteListing);
 });
 
 // Functions =============================================================
 
 // Fill table with data from database
-function populateTable() {
-
+function populateBusinessList() {
   // Empty content string
   var tableContent = '';
 
   // jQuery AJAX call for JSON
   $.getJSON('/listings/businesslist', function(data) {
 
-  	businessListData = data;
+    businessListData = data;
     // For each item in our JSON, add a table row and cells to the content string
-    $.each(data, function(){
-      if (this.matched) {
-        tableContent += '<tr>';
-        tableContent += '<td><a href="#" class="linkshowlisting" rel="' + this.businessname + '">' + this.businessname + '</a></td>';
-        tableContent += '<td>' + this.businesstype + '</td>';
-        tableContent += '<td>' + this.location + '</td>';
-        tableContent += '<td>' + this.description + '</td>';
-        tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + this._id + '">delete</a></td>';
-        tableContent += '</tr>';
+    $.each(data, function() {
+      if (this.verified == 1) {
+        if (this.matched == 1) {
+          tableContent += '<tr>';
+          tableContent += '<td><a href="#" class="linkshowlisting" rel="' + this._id + '">' + this.businessname + '</a></td>';
+          tableContent += '<td>' + this.businesstype + '</td>';
+          tableContent += '<td>' + this.location + '</td>';
+          tableContent += '<td>' + this.description + '</td>';
+          tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + this._id + '">delete</a></td>';
+          tableContent += '</tr>';
+        }
       }
     });
 
@@ -50,22 +60,52 @@ function populateTable() {
   });
 };
 
+function populateUnverifiedList() {
+  // Empty content string
+  var tableContent = '';
+
+  // jQuery AJAX call for JSON
+  $.getJSON('/listings/businesslist', function(data) {
+
+    businessListData = data;
+    // For each item in our JSON, add a table row and cells to the content string
+    $.each(data, function() {
+      if (this.verified == 0) {
+        tableContent += '<tr>';
+        tableContent += '<td><a href="#" class="linkshowlisting" rel="' + this._id + '">' + this.businessname + '</a></td>';
+        tableContent += '<td>' + this.businesstype + '</td>';
+        tableContent += '<td>' + this.location + '</td>';
+        tableContent += '<td>' + this.description + '</td>';
+        tableContent += '<td><a href="#" class="linkapprovelisting" rel="' + this._id + '">approve</a></td>';
+        tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + this._id + '">delete</a></td>';
+        tableContent += '</tr>';
+      }
+    });
+
+    // Inject the whole content string into our existing HTML table
+    $('#unverifiedBusinessList table tbody').html(tableContent);
+  });
+};
+
 // Fill table with data from businessListData array
-function repopulateTable() {
+function repopulateBusinessList() {
 
   // Empty content string
   var tableContent = '';
 
   // For each item in our JSON, add a table row and cells to the content string
   businessListData.forEach(function(businessListing) {
-    if (businessListing.matched) {
-      tableContent += '<tr>';
-      tableContent += '<td><a href="#" class="linkshowlisting" rel="' + businessListing.businessname + '">' + businessListing.businessname + '</a></td>';
-      tableContent += '<td>' + businessListing.businesstype + '</td>';
-      tableContent += '<td>' + businessListing.location + '</td>';
-      tableContent += '<td>' + businessListing.description + '</td>';
-      tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + businessListing._id + '">delete</a></td>';
-      tableContent += '</tr>';
+    if (businessListing.verified == 1) {
+      console.log(businessListing.matched);
+      if (businessListing.matched == 1) {
+        tableContent += '<tr>';
+        tableContent += '<td><a href="#" class="linkshowlisting" rel="' + businessListing._id + '">' + businessListing.businessname + '</a></td>';
+        tableContent += '<td>' + businessListing.businesstype + '</td>';
+        tableContent += '<td>' + businessListing.location + '</td>';
+        tableContent += '<td>' + businessListing.description + '</td>';
+        tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + businessListing._id + '">delete</a></td>';
+        tableContent += '</tr>';
+      }
     }
   });
 
@@ -80,10 +120,10 @@ function showListingInfo(event) {
   event.preventDefault();
 
   // Retrieve businessname from link rel attribute
-  var thisBusinessName = $(this).attr('rel');
+  var thisBusinessID = $(this).attr('rel');
 
   // Get Index of object based on id value
-  var arrayPosition = businessListData.map(function(arrayItem) { return arrayItem.businessname; }).indexOf(thisBusinessName);
+  var arrayPosition = businessListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisBusinessID);
 
   // Get our Listing Object
   var thisListingObject = businessListData[arrayPosition];
@@ -119,8 +159,9 @@ function addListing(event) {
       'businesstype': $('#addListing fieldset select#inputBusinessType').val(),
       'location': $('#addListing fieldset input#inputLocation').val(),
       'description': $('#addListing fieldset input#inputDescription').val(),
-      'matched': true
-    }
+      'matched': 1,
+      'verified': 0
+    };
 
     // Use AJAX to post the object to our addlisting service
     $.ajax({
@@ -137,8 +178,8 @@ function addListing(event) {
         $('#addListing fieldset input').val('');
 
         // Update the table
-        populateTable();
-
+        populateBusinessList();
+        populateUnverifiedList();
       }
       else {
 
@@ -155,6 +196,77 @@ function addListing(event) {
   }
 };
 
+function approveListing(event) {
+
+  // prevent link from firing
+  event.preventDefault();
+
+  // Retrieve businessID from link rel attribute
+  var thisBusinessID = $(this).attr('rel');
+
+  // Get Index of object based on id value
+  var arrayPosition = businessListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisBusinessID);
+
+  // Get our Listing Object
+  var thisListingObject = businessListData[arrayPosition];
+
+  // Create new verified listing object
+  var approvedListing = {
+    'ownername': thisListingObject.ownername,
+    'email': thisListingObject.email,
+    'gradyear': thisListingObject.gradyear,
+    'businessname': thisListingObject.businessname,
+    'businesstype': thisListingObject.businesstype,
+    'location': thisListingObject.location,
+    'description': thisListingObject.description,
+    'matched': thisListingObject.matched,
+    'verified': 1,
+  };
+
+  // Delete the old listing
+  $.ajax({
+    type: 'DELETE',
+    url: '/listings/deletelisting/' + thisBusinessID
+  }).done(function(response) {
+
+    // Check for a successful (blank) response
+    if (response.msg === '') {
+    }
+    else {
+      alert('Error: ' + response.msg);
+    }
+
+    // Update the table
+    populateUnverifiedList();
+    populateBusinessList();
+
+  });
+
+  // Use AJAX to post the updating listing object to our addlisting service
+  $.ajax({
+    type: 'POST',
+    data: approvedListing,
+    url: '/listings/addlisting',
+    dataType: 'JSON'
+  }).done(function(response) {
+
+    // Check for successful (blank) response
+    if (response.msg === '') {
+
+      // Update the table
+      populateBusinessList();
+      populateUnverifiedList();
+
+    }
+    else {
+
+      // If something goes wrong, alert the error message that our service returned
+      alert('Error: ' + response.msg);
+
+    }
+  });
+};
+
 // Filter business listings table according to Location and Business Type criteria
 function filterListings(event) {
   // prevent link from firing
@@ -163,11 +275,11 @@ function filterListings(event) {
   businessListData.forEach(function(businessListing) {
     if (businessListing.businesstype != $('#filterListings select#inputBusinessType').val() ||
         businessListing.location != $('#filterListings input#inputLocation').val()) {
-      businessListing.matched = false;
+      businessListing.matched = 0;
     }
   });
 
-  repopulateTable();
+  repopulateBusinessList();
 }
 
 // Delete Listing
@@ -195,8 +307,8 @@ function deleteListing(event) {
       }
 
       // Update the table
-      populateTable();
-
+      populateBusinessList();
+      populateUnverifiedList();
     });
 
   }
