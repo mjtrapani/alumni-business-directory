@@ -5,7 +5,7 @@ var businessListData = [];
 $(document).ready(function() {
   // Populate the business list and unverified list table on initial page load
   populateBusinessList();
-  populateUnverifiedList();
+  populateUnverifiedBusinessList();
 
   // ownername link click
 	$('#businessList table tbody').on('click', 'td a.linkshowlisting', showListingInfo);
@@ -22,11 +22,11 @@ $(document).ready(function() {
   // Approve Listing button click
   $('#unverifiedBusinessList table tbody').on('click', 'td a.linkapprovelisting', approveListing);
 
-  // unverified list ownername link click
+  // uverifiedBusinessList ownername link click
 	$('#unverifiedBusinessList table tbody').on('click', 'td a.linkshowlisting', showListingInfo);
 
-  // unverified list Deny/Delete Listing link click
-  $('#unverifiedBusinessList table tbody').on('click', 'td a.linkdeletelisting', deleteListing);
+  // unverifiedBusinessList Deny (Delete) Listing link click
+  $('#unverifiedBusinessList table tbody').on('click', 'td a.linkdenylisting', deleteListing);
 });
 
 // Functions =============================================================
@@ -49,7 +49,7 @@ function populateBusinessList() {
           tableContent += '<td>' + this.businesstype + '</td>';
           tableContent += '<td>' + this.location + '</td>';
           tableContent += '<td>' + this.description + '</td>';
-          tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + this._id + '">delete</a></td>';
+          tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + this._id + '">DELETE</a></td>';
           tableContent += '</tr>';
         }
       }
@@ -61,7 +61,7 @@ function populateBusinessList() {
 };
 
 // Fill unverifiedBusinessList table
-function populateUnverifiedList() {
+function populateUnverifiedBusinessList() {
   // Empty content string
   var tableContent = '';
 
@@ -77,8 +77,8 @@ function populateUnverifiedList() {
         tableContent += '<td>' + this.businesstype + '</td>';
         tableContent += '<td>' + this.location + '</td>';
         tableContent += '<td>' + this.description + '</td>';
-        tableContent += '<td><a href="#" class="linkapprovelisting" rel="' + this._id + '">approve</a></td>';
-        tableContent += '<td><a href="#" class="linkdeletelisting" rel="' + this._id + '">delete</a></td>';
+        tableContent += '<td><a href="#" class="linkapprovelisting" rel="' + this._id + '">APPROVE</a></td>';
+        tableContent += '<td><a href="#" class="linkdenylisting" rel="' + this._id + '">DENY</a></td>';
         tableContent += '</tr>';
       }
     });
@@ -167,7 +167,7 @@ function addListing(event) {
     return false;
   }
   if (newListing.businesstype == 'Unselected')
-    newListing.businesstype == 'Not Selected';
+    newListing.businesstype = 'Not Selected';
 
   // Use AJAX to post the object to our addlisting service
   $.ajax({
@@ -176,26 +176,21 @@ function addListing(event) {
     url: '/listings/addlisting',
     dataType: 'JSON'
   }).done(function(response) {
-
     // Check for successful (blank) response
     if (response.msg === '') {
 
       // Clear the form inputs
       $('#addListing fieldset input').val('');
-
-      // Update the table
-      populateBusinessList();
-      populateUnverifiedList();
+      //populateBusinessList();
     }
     else {
-
       // If something goes wrong, alert the error message that our service returned
       alert('Error: ' + response.msg);
-
     }
   });
 };
 
+// Event function for the alumni office manager page to verify listings
 function approveListing(event) {
 
   // prevent link from firing
@@ -206,16 +201,12 @@ function approveListing(event) {
 
   // Check and make sure the listing confirmed
   if (confirmation === true) {
-
     // Retrieve businessID from link rel attribute
     var thisBusinessID = $(this).attr('rel');
-
     // Get Index of object based on id value
     var arrayPosition = businessListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisBusinessID);
-
     // Get our Listing Object
     var thisListingObject = businessListData[arrayPosition];
-
     // Create new verified listing object with verified property as 1
     var approvedListing = {
       'ownername': thisListingObject.ownername,
@@ -243,8 +234,7 @@ function approveListing(event) {
       }
 
       // Update the tables
-      populateUnverifiedList();
-      populateBusinessList();
+      populateUnverifiedBusinessList();
 
     });
 
@@ -260,8 +250,7 @@ function approveListing(event) {
       if (response.msg === '') {
 
         // Update the tables
-        populateBusinessList();
-        populateUnverifiedList();
+        //populateBusinessList();
 
       }
       else {
@@ -288,6 +277,7 @@ function filterListings(event) {
     }
   });
 
+  // Populate table with only with matches (stored in businessListData array)
   repopulateBusinessList();
 }
 
@@ -315,9 +305,9 @@ function deleteListing(event) {
         alert('Error: ' + response.msg);
       }
 
-      // Update the table
+      // Update the tables
       populateBusinessList();
-      populateUnverifiedList();
+      populateUnverifiedBusinessList();
     });
 
   }
