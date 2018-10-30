@@ -31,7 +31,7 @@ $(document).ready(function() {
 
 // Functions =============================================================
 
-// Fill table with data from database
+// Fill businessList table with data from database
 function populateBusinessList() {
   // Empty content string
   var tableContent = '';
@@ -60,6 +60,7 @@ function populateBusinessList() {
   });
 };
 
+// Fill unverifiedBusinessList table
 function populateUnverifiedList() {
   // Empty content string
   var tableContent = '';
@@ -141,111 +142,37 @@ function addListing(event) {
   // prevent link from firing
   event.preventDefault();
 
-  // Super basic validation - increase errorCount variable if any fields are blank
-  var errorCount = 0;
-  $('#addListing input').each(function(index, val) {
-    if($(this).val() === '') { errorCount++; }
-  });
-
-  // Check and make sure errorCount's still at zero
-  if(errorCount === 0) {
-
-    // If it is, compile all listing info into one object
-    var newListing = {
-      'ownername': $('#addListing fieldset input#inputOwnerName').val(),
-      'email': $('#addListing fieldset input#inputOwnerEmail').val(),
-      'gradyear': $('#addListing fieldset input#inputGradYear').val(),
-      'businessname': $('#addListing fieldset input#inputBusinessName').val(),
-      'businesstype': $('#addListing fieldset select#inputBusinessType').val(),
-      'location': $('#addListing fieldset input#inputLocation').val(),
-      'description': $('#addListing fieldset input#inputDescription').val(),
-      'matched': 1,
-      'verified': 0
-    };
-
-    // Use AJAX to post the object to our addlisting service
-    $.ajax({
-      type: 'POST',
-      data: newListing,
-      url: '/listings/addlisting',
-      dataType: 'JSON'
-    }).done(function(response) {
-
-      // Check for successful (blank) response
-      if (response.msg === '') {
-
-        // Clear the form inputs
-        $('#addListing fieldset input').val('');
-
-        // Update the table
-        populateBusinessList();
-        populateUnverifiedList();
-      }
-      else {
-
-        // If something goes wrong, alert the error message that our service returned
-        alert('Error: ' + response.msg);
-
-      }
-    });
-  }
-  else {
-    // If errorCount is more than 0, error out
-    alert('Please fill in all fields');
+  // If it is, compile all listing info into one object
+  var newListing = {
+    'ownername': $('#addListing fieldset input#inputOwnerName').val(),
+    'email': $('#addListing fieldset input#inputOwnerEmail').val(),
+    'gradyear': $('#addListing fieldset input#inputGradYear').val(),
+    'businessname': $('#addListing fieldset input#inputBusinessName').val(),
+    'businesstype': $('#addListing fieldset select#inputBusinessType').val(),
+    'location': $('#addListing fieldset input#inputLocation').val(),
+    'description': $('#addListing fieldset input#inputDescription').val(),
+    'matched': 1,
+    'verified': 0
+  };
+  if (newListing.ownername == '') {
+    alert('Owner Name not entered; Listing not submitted.')
     return false;
   }
-};
+  if (newListing.businessname == '') {
+    alert('Business Name not entered; Listing not submitted.')
+    return false;
+  }
+  if (newListing.location == '') {
+    alert('Location not entered; Listing not submitted.')
+    return false;
+  }
+  if (newListing.businesstype == 'Unselected')
+    newListing.businesstype == 'Not Selected';
 
-function approveListing(event) {
-
-  // prevent link from firing
-  event.preventDefault();
-
-  // Retrieve businessID from link rel attribute
-  var thisBusinessID = $(this).attr('rel');
-
-  // Get Index of object based on id value
-  var arrayPosition = businessListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisBusinessID);
-
-  // Get our Listing Object
-  var thisListingObject = businessListData[arrayPosition];
-
-  // Create new verified listing object
-  var approvedListing = {
-    'ownername': thisListingObject.ownername,
-    'email': thisListingObject.email,
-    'gradyear': thisListingObject.gradyear,
-    'businessname': thisListingObject.businessname,
-    'businesstype': thisListingObject.businesstype,
-    'location': thisListingObject.location,
-    'description': thisListingObject.description,
-    'matched': thisListingObject.matched,
-    'verified': 1,
-  };
-
-  // Delete the old listing
-  $.ajax({
-    type: 'DELETE',
-    url: '/listings/deletelisting/' + thisBusinessID
-  }).done(function(response) {
-
-    // Check for a successful (blank) response
-    if (response.msg === '') {
-    }
-    else {
-      alert('Error: ' + response.msg);
-    }
-
-    // Update the table
-    populateUnverifiedList();
-    populateBusinessList();
-
-  });
-
-  // Use AJAX to post the updating listing object to our addlisting service
+  // Use AJAX to post the object to our addlisting service
   $.ajax({
     type: 'POST',
-    data: approvedListing,
+    data: newListing,
     url: '/listings/addlisting',
     dataType: 'JSON'
   }).done(function(response) {
@@ -253,10 +180,12 @@ function approveListing(event) {
     // Check for successful (blank) response
     if (response.msg === '') {
 
+      // Clear the form inputs
+      $('#addListing fieldset input').val('');
+
       // Update the table
       populateBusinessList();
       populateUnverifiedList();
-
     }
     else {
 
@@ -265,6 +194,86 @@ function approveListing(event) {
 
     }
   });
+};
+
+function approveListing(event) {
+
+  // prevent link from firing
+  event.preventDefault();
+
+  // Pop up a confirmation dialog
+  var confirmation = confirm('Are you sure you want to approve this listing?');
+
+  // Check and make sure the listing confirmed
+  if (confirmation === true) {
+
+    // Retrieve businessID from link rel attribute
+    var thisBusinessID = $(this).attr('rel');
+
+    // Get Index of object based on id value
+    var arrayPosition = businessListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisBusinessID);
+
+    // Get our Listing Object
+    var thisListingObject = businessListData[arrayPosition];
+
+    // Create new verified listing object with verified property as 1
+    var approvedListing = {
+      'ownername': thisListingObject.ownername,
+      'email': thisListingObject.email,
+      'gradyear': thisListingObject.gradyear,
+      'businessname': thisListingObject.businessname,
+      'businesstype': thisListingObject.businesstype,
+      'location': thisListingObject.location,
+      'description': thisListingObject.description,
+      'matched': thisListingObject.matched,
+      'verified': 1,
+    };
+
+    // Delete the old listing
+    $.ajax({
+      type: 'DELETE',
+      url: '/listings/deletelisting/' + thisBusinessID
+    }).done(function(response) {
+
+      // Check for a successful (blank) response
+      if (response.msg === '') {
+      }
+      else {
+        alert('Error: ' + response.msg);
+      }
+
+      // Update the tables
+      populateUnverifiedList();
+      populateBusinessList();
+
+    });
+
+    // Use AJAX to post the updated listing object to our addlisting service
+    $.ajax({
+      type: 'POST',
+      data: approvedListing,
+      url: '/listings/addlisting',
+      dataType: 'JSON'
+    }).done(function(response) {
+
+      // Check for successful (blank) response
+      if (response.msg === '') {
+
+        // Update the tables
+        populateBusinessList();
+        populateUnverifiedList();
+
+      }
+      else {
+
+        // If something goes wrong, alert the error message that our service returned
+        alert('Error: ' + response.msg);
+
+      }
+    });
+  } else {
+    return false;
+  }
 };
 
 // Filter business listings table according to Location and Business Type criteria
