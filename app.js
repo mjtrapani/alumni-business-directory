@@ -5,9 +5,21 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 // Database
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/alumni-business-directory');
+var mysql = require('mysql');
+var config = require('./config.js');
+
+var db_access = {
+    host     : config.db.host,
+    user     : config.db.username,
+    password : config.db.password,
+    database : config.db.dbname
+};
+
+var conn = mysql.createConnection(db_access);
+
+// var mongo = require('mongodb');
+// var monk = require('monk');
+// var db = monk('localhost:27017/alumni-business-directory');
 
 var indexRouter = require('./routes/index');
 var listingsRouter = require('./routes/listings');
@@ -26,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Make our db accessible to our router
 app.use(function(req,res,next){
-    req.db = db;
+    req.db = conn;
     next();
 });
 
