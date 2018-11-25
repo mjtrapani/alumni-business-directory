@@ -270,9 +270,21 @@ function filterListings(event) {
   // prevent link from firing
   event.preventDefault();
 
+//Changes mainly done here, in businessListData. matched = 0 if any input exists, but does not match the listing
+	
+  inputOName = $('#filterListings select#inputOwnerName').val()
+  inputEmail = $('#filterListings input#inputEmail').val()
+  inputGYear = $('#filterListings select#inputGradYear').val()
+  inputBName = $('#filterListings input#inputBusinessName').val()
+  inputBType = $('#filterListings select#inputBusinessType').val()
+  inputLocation = $('#filterListings input#inputLocation').val()
   businessListData.forEach(function(businessListing) {
-    if (businessListing.businesstype != $('#filterListings select#inputBusinessType').val() ||
-        businessListing.location != $('#filterListings input#inputLocation').val()) {
+    if ((businessListing.ownername != inputOName && inputOName) ||
+	(businessListing.email != inputEmail && inputEmail) ||
+	(businessListing.gradyear != inputGYear && inputGYear) ||
+	(businessListing.businessname != inputBName && inputBName) ||
+	(businessListing.businesstype != inputBType && inputBType) ||
+        (businessListing.location != inputLocation && inputLocation) {
       businessListing.matched = 0;
     }
   });
