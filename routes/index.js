@@ -99,9 +99,7 @@ router.post('/create-account', function (req, res, next) {
                         var timeoutTime = startTime + req.config.sessionTimeout;
                         db.query('INSERT INTO sessions SET userId = ?, cookieId = ?, startTime = ?, timeoutTime = ?' , [userId, cookieId, startTime, timeoutTime], function (error) {
                             res.render('index', {title: 'Listings   ', cookieId: cookieId, userId: userId, isAdmin: 0});
-
                         });
-
                     });
                 }
                 else
@@ -239,7 +237,7 @@ router.get('/verify', function (req, res, next) {
 
 
 
-/* GET Verify page. */
+/* GET Report page. */
 router.get('/report', function (req, res, next) {
     var sessId = req.query.sessId;
     if (sessId !== "") {

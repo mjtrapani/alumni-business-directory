@@ -59,6 +59,8 @@ $(document).ready(function () {
     $('#filterLocation').on('keyup', filterListings);
     // Filter Listings on type change
 
+    $('#filterBusinessDescription').on('keyup', filterListings);
+
     $('#filterOwnerName').on('keyup', filterListings);
 
     $('#filterBusinessType').on('change', filterListings);
@@ -380,11 +382,13 @@ function filterListings(event) {
         var enteredOwnerName = $('#filterListings input#filterOwnerName').val().toLowerCase().trim();
         var enteredGradYear = $('#filterListings input#filterGradYear').val().toString().toLowerCase().trim();
         var enteredBusinessName = $('#filterListings input#filterBusinessName').val().toLowerCase().trim();
+        var enteredBusinessDescription = $('#filterListings input#filterBusinessDescription').val().toLowerCase().trim();
         var matchedType = (enteredType === "unselected") || (enteredType === businessListing.businessType.toLowerCase().trim());
         var matchedOwnerName = (enteredOwnerName === "") || (businessListing.ownerName.toLowerCase().indexOf(enteredOwnerName) >= 0);
         var matchedLocation = (enteredLocation === "") || (businessListing.location.toLowerCase().indexOf(enteredLocation) >= 0);
         var matchedGradYear = (enteredGradYear === "") || (businessListing.gradYear.toString().toLowerCase().indexOf(enteredGradYear) >= 0);
         var matchedBusinessName = (enteredBusinessName === "") || (businessListing.businessName.toLowerCase().indexOf(enteredBusinessName) >= 0);
+        var matchedBusinessName = (enteredBusinessDescription === "") || (businessListing.description.toLowerCase().indexOf(enteredBusinessDescription) >= 0);
 
         if (matchedType == 1 && matchedLocation == 1 && matchedGradYear == 1 && matchedBusinessName == 1 && matchedOwnerName == 1)
           businessListing.matched = 1;
