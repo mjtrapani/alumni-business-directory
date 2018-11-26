@@ -16,7 +16,7 @@ var userIdstr = "";
 $(document).ready(function () {
     // Populate the business list and unverified list table on initial page load
 
-    
+
     var page = ($('#inputPage').length ? $('#inputPage').val() : "");
     sessId = $('input#inputSessionId').val();
     userIdstr = $('input#inputUserId').val();
@@ -58,7 +58,15 @@ $(document).ready(function () {
     // Filter Listings on key up
     $('#filterLocation').on('keyup', filterListings);
     // Filter Listings on type change
+
+    $('#filterOwnerName').on('keyup', filterListings);
+
     $('#filterBusinessType').on('change', filterListings);
+
+    $('#filterGradYear').on('keyup', filterListings);
+
+    $('#filterBusinessName').on('keyup', filterListings);
+
 
     // Approve Listing button click
     $('#unverifiedBusinessList table tbody').on('click', 'td a.linkapprovelisting', approveListing);
@@ -112,7 +120,7 @@ function verifyCreateAccountForm() {
     }
 
     if ($('input#password').val().trim() !== $('input#verifyPassword').val().trim()) {
-        alert("Your passwords to not match");
+        alert("Your passwords do not match");
         return false;
     }
 
@@ -369,10 +377,19 @@ function filterListings(event) {
     businessListData.forEach(function (businessListing) {
         var enteredLocation = $('#filterListings input#filterLocation').val().toLowerCase().trim();
         var enteredType = $('#filterListings select#filterBusinessType').val().toLowerCase().trim();
+        var enteredOwnerName = $('#filterListings input#filterOwnerName').val().toLowerCase().trim();
+        var enteredGradYear = $('#filterListings input#filterGradYear').val().toString().toLowerCase().trim();
+        var enteredBusinessName = $('#filterListings input#filterBusinessName').val().toLowerCase().trim();
         var matchedType = (enteredType === "unselected") || (enteredType === businessListing.businessType.toLowerCase().trim());
-        var matchedLocation = ((enteredLocation === "") || (businessListing.location.toLowerCase().indexOf(enteredLocation) >= 0));
+        var matchedOwnerName = (enteredOwnerName === "") || (businessListing.ownerName.toLowerCase().indexOf(enteredOwnerName) >= 0);
+        var matchedLocation = (enteredLocation === "") || (businessListing.location.toLowerCase().indexOf(enteredLocation) >= 0);
+        var matchedGradYear = (enteredGradYear === "") || (businessListing.gradYear.toString().toLowerCase().indexOf(enteredGradYear) >= 0);
+        var matchedBusinessName = (enteredBusinessName === "") || (businessListing.businessName.toLowerCase().indexOf(enteredBusinessName) >= 0);
 
-        businessListing.matched = (matchedType && matchedLocation ? 1 : 0);
+        if (matchedType == 1 && matchedLocation == 1 && matchedGradYear == 1 && matchedBusinessName == 1 && matchedOwnerName == 1)
+          businessListing.matched = 1;
+        else
+          businessListing.matched = 0;
     });
 
     renderBusinessList(true);

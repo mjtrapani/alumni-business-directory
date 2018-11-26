@@ -227,7 +227,7 @@ router.get('/verify', function (req, res, next) {
                     });
                 }
                 else {
-                    res.render('aomp', {title: 'Verify pending listings', cookieId: results[0].cookieId, userId: results[0].userId, isAdmin: results[0].admin});
+                    res.render('aomp', {title: 'Verify Pending Listings', cookieId: results[0].cookieId, userId: results[0].userId, isAdmin: results[0].admin});
                 }
             }
         });

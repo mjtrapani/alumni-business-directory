@@ -36,7 +36,13 @@ block content
       // FILTER LISTINGS
       #filterListings
         +panel("Filter Listings")
+          input#filterBusinessName(type='text', placeholder='Business Name')
+          br
           input#filterLocation(type='text', placeholder='Business Location (City)')
+          br
+          input#filterOwnerName(type='text', placeholder='Owner Name')
+          br
+          input#filterGradYear(type='text', placeholder='Owner Grad Year')
           br
           p Select Business Type:
           select#filterBusinessType(name='types')
@@ -53,6 +59,7 @@ block content
             option(value='Non-Profit') Non-Profit
             option(value='Other') Other
           br
+          
       // /FILTER LISTINGS
 
 
