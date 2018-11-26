@@ -1,0 +1,81 @@
+extends layout
+
+block content
+  input#inputPage(type='hidden', value="my-listings")
+  input#isAdmin(type='hidden', value="#{isAdmin}")
+  +nav('Alumni Business Directory', "dropdown_menu")
+    +nav_item( "/" ) All Listings
+    +nav_item( "/my-listings", "active" ) My Listings
+    +nav_item( "/verify", "hidden", "verifyLink" ) Verify Listings
+    +nav_item( "/report", "hidden", "reportLink" ) Report
+    +nav_item( "/logout", "", "logoutLink" ) Logout
+  #welcome
+    h1 #{title}!
+    br
+
+  .row
+    .col-md-5.col-sm-6.col-xs-12
+      // BUSINESS LISTING INFO
+      #listingInfo
+        +panel("My Info")
+          strong First Name:
+          |  <span id='listingInfoOwnerName'>#{firstName}</span>
+          br
+          strong Last Name:
+          |  <span id='listingInfoOwnerName'>#{lastName}</span>
+          br
+          strong Grad Year:
+          |  <span id='listingInfoGradYear'>#{gradYear}</span>
+          br
+          strong Contact Email:
+          |  <span id='listingInfoEmail'>#{email}</span>
+
+      // /BUSINESS LISTING INFO
+
+    .col-md-5.col-sm-6.col-xs-12
+      // ADD LISTING
+      #addListing
+        +panel("Add Listing")
+          fieldset
+            input#inputBusinessName(type='text', placeholder='Business Name')
+            input#inputLocation(type='text', placeholder='Business Location (City)')
+            br
+            br
+            textarea#inputDescription(placeholder='Description', cols=40, rows=5)
+            input#inputUserId(type='hidden', value="#{userId}")
+            input#inputSessionId(type='hidden', value="#{cookieId}")
+            p Select Business Type:
+            select#inputBusinessType(name='types')
+              option(value='Unselected') Unselected
+              option(value='Dining') Dining
+              option(value='Retail') Retail
+              option(value='Health Care') Manufacturing
+              option(value='Entertainment') Entertainment
+              option(value='Finance') Finance
+              option(value='Lifestyle') Lifestyle
+              option(value='Health Care') Health Care
+              option(value='Education') Education
+              option(value='Arts') Arts
+              option(value='Non-Profit') Non-Profit
+              option(value='Other') Other
+            br
+            br
+            button#btnAddListing Add Listing
+    // /ADD LISTING
+
+  // BUSINESS LIST
+  #businessList
+    h2 Business List
+    table
+      thead
+        th Business Name
+        th Type of Business
+        th Location
+        th Business Description
+        th Date Created
+        th Last Updated
+        th Verified
+        th Delete
+      tbody
+    br
+  // /BUSINESS LIST

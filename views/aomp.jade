@@ -1,33 +1,46 @@
 extends layout
 
 block content
+  input#inputPage(type='hidden', value="aomp")
+  input#isAdmin(type='hidden', value="#{isAdmin}")
+  input#inputSessionId(type='hidden', value="#{cookieId}")
+  input#inputUserId(type='hidden', value="#{userId}")
+  +nav('Alumni Business Directory', "dropdown_menu")
+    +nav_item( "/" ) All Listings
+    +nav_item( "/my-listings" ) My Listings
+    +nav_item( "/verify", "active", "verifyLink" ) Verify Listings
+    +nav_item( "/report", "", "reportLink" ) Report
+    +nav_item( "/logout", "", "logoutLink" ) Logout
   h1 #{title}
   br
-  
-  #listingInfo
-    h2 Selected Business Listing Info
-    p
-      strong Business Name:
-      |  <span id='listingInfoBusinessName'>N/A</span>
-      br
-      strong Owner Name:
-      |  <span id='listingInfoOwnerName'>N/A</span>
-      br
-      strong Grad Year:
-      |  <span id='listingInfoGradYear'>N/A</span>
-      br
-      strong Contact Email:
-      |  <span id='listingInfoEmail'>N/A</span>
-    br
+  .row
+    .col-md-5.col-sm-6.col-xs-12
+      #listingInfo
+        +panel("Selected Business Listing Info")
+          strong Business Name:
+          |  <span id='listingInfoBusinessName'>N/A</span>
+          br
+          strong Owner Name:
+          |  <span id='listingInfoOwnerName'>N/A</span>
+          br
+          strong Grad Year:
+          |  <span id='listingInfoGradYear'>N/A</span>
+          br
+          strong Contact Email:
+          |  <span id='listingInfoEmail'>N/A</span>
+        br
   
   #unverifiedBusinessList
     h2 Unverified Listings
     table
       thead
         th Business Name
+        th Owner
         th Type of Business
         th Location
         th Business Description
+        th Date Created
+        th Last Updated
         th Approve?
         th Deny?
       tbody

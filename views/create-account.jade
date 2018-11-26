@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  input#inputPage(type='hidden', value="create-account")
+  h1= title
+
+    .container
+      form.form-signin(action="/create-account", method="post", id="create-account")
+        h2.form-signin-heading
+          input.input-block-level(type="text", name="firstName", placeholder="First Name", id="firstName")
+          br
+          input.input-block-level(type="text", name="lastName", placeholder="Last Name", id="lastName")
+          br
+          input.input-block-level(type="text", name="username", placeholder="Email address", id="username")
+          br
+          input.input-block-level(type="text", name="gradYear", placeholder="Grad Year", id="gradYear")
+          br
+          input.input-block-level(type="password", name="password", placeholder="Password", id="password")
+          br
+          input.input-block-level(type="password", name="verifyPassword", placeholder="Verify Password", id="verifyPassword")
+          br
+          button.btn.btn-large.btn-primary(type="button", id="btnVerifyCreateAccount") Create Account
+
+      span Or
+        br
+        button.btn.btn-large.btn-default(type="button", id="btnCancel") Cancel
+        br

@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    input#inputPage(type='hidden', value="report")
+    input#isAdmin(type='hidden', value="#{isAdmin}")
+    input#inputSessionId(type='hidden', value="#{cookieId}")
+    input#inputUserId(type='hidden', value="#{userId}")
+    +nav('Alumni Business Directory', "dropdown_menu")
+        +nav_item( "/" ) All Listings
+        +nav_item( "/my-listings" ) My Listings
+        +nav_item( "/verify", "", "verifyLink" ) Verify Listings
+        +nav_item( "/report", "active", "reportLink" ) Report
+        +nav_item( "/logout", "", "logoutLink" ) Logout
+    h1 #{title}
+    br
+
+    #searchersReport
+        table
+            thead
+                th Name
+                th Grad Year
+                th Email
+                th Created
+                th Approved Business Listings
+                th Awaiting Approval
+            tbody
+        br

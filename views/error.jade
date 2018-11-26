@@ -1,6 +1,11 @@
 extends layout
 
 block content
+  +nav(title, "dropdown_menu")
+    +nav_item( "/" ) All Listings
+    +nav_item( "/my-listings" ) My Listings
+    +nav_item( "/verify", "hidden", "verifyLink" ) Verify Listings
+    +nav_item( "/report", "hidden", "reportLink" ) Report
   h1= message
   h2= error.status
   pre #{error.stack}

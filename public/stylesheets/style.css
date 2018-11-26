@@ -1,98 +1,80 @@
 body {
-  padding: 5px 0px 0px 20px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 20px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 h2 {
-	margin:0 0 .5em 0;
+    margin: 0 0 .5em 0;
 }
 
 a {
-  color: #00B7FF;
+    color: #00B7FF;
 }
 
 #welcome {
-	display:block;
-  margin:auto;
+    display: block;
+    margin: auto;
 }
 
 #wrapper {
-	display:inline-block;
-  margin:auto;
-  float:left;
+    display: inline-block;
+    margin: auto;
+    float: left;
 }
 
 #listingInfo {
-	width:250px;
-  float:left;
+    width: 250px;
+    float: left;
 }
 
-#businessList {
-  display:inline-block;
-  float:right;
-  margin-right: 20px;
+#businessList, #unverifiedBusinessList, #searchersReport {
+    display: inline-block;
+    margin-right: 20px;
 }
-	#businessList table {
-		border-collapse:separate;
-		border-spacing:1px;
-		background:#CCC;
-	}
-		#businessList table th {
-			background:#EEE;
-			font-weight:600;
-			padding:10px 20px;
-			text-align:center;
-		}
-		#businessList table tbody {
-			padding:0; margin:0;
-			border-collapse:collapse;
-			border-spacing:0px;
-		}
-			#businessList table td {
-				background:#FFF;
-				padding:10px 10px;
-				text-align:center;
-			}
 
-#unverifiedBusinessList {
-  display:inline-block;
-  float:right;
-  margin-right:20px;
+#businessList table, #unverifiedBusinessList table, #searchersReport table {
+    border-collapse: separate;
+    border-spacing: 1px;
+    background: #CCC;
 }
-	#unverifiedBusinessList table {
-		border-collapse:separate;
-		border-spacing:1px;
-		background:#CCC;
-	}
-		#unverifiedBusinessList table th {
-			background:#EEE;
-			font-weight:600;
-			padding:10px 20px;
-			text-align:center;
-		}
-		#unverifiedBusinessList table tbody {
-			padding:0; margin:0;
-			border-collapse:collapse;
-			border-spacing:0px;
-		}
-			#unverifiedBusinessList table td {
-				background:#FFF;
-				padding:10px 10px;
-				text-align:center;
-			}
+
+#businessList table th, #unverifiedBusinessList table th, #searchersReport table th {
+    background: #EEE;
+    font-weight: 600;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+#businessList table tbody, #unverifiedBusinessList table tbody, #searchersReport table tbody {
+    padding: 0;
+    margin: 0;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+#businessList table td, #unverifiedBusinessList table td, #searchersReport table td {
+    background: #FFF;
+    padding: 10px 10px;
+    text-align: center;
+}
 
 #listingInfo p {
-	padding:15px;
-	border:1px solid #CCC;
-	background:rgba(80,120,255,0.05);
+    padding: 15px;
+    border: 1px solid #CCC;
+    background: rgba(80, 120, 255, 0.05);
 }
 
 fieldset {
-	border:0;
-	padding:0; margin:0;
+    border: 0;
+    padding: 0;
+    margin: 0;
 }
 
-.dropdown a {color: black;margin: 5px; text-decoration: none;}
+.dropdown a {
+    color: black;
+    margin: 5px;
+    text-decoration: none;
+}
 
 .dropdown-menu li:hover .sub-menu {
     visibility: visible;
@@ -109,4 +91,23 @@ fieldset {
     top: 0;
     visibility: hidden;
     margin-top: -1px;
+}
+
+.navbar {
+    max-height: 40px !important;
+    height: 40px;
+    display: block;
+}
+
+.hidden {
+    visibility: hidden;
+    display: none;
+}
+
+#filterLocation {
+    width: 100%;
+}
+
+#businessList, #businessList table, #unverifiedBusinessList, #unverifiedBusinessList table {
+    width: 100%;
 }

@@ -1,25 +1,33 @@
 var createError = require('http-errors');
+var bodyParser = require('body-parser')
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var auth = require('basic-auth');
+
+// read in the config file
+var config = require('./config.json');
+var db = null;
+var dbInitError = null;
 // Database
+
 var mysql = require('mysql');
-var config = require('./config.js');
+db = mysql.createConnection({
+    host: config.db.host,
+    user: config.db.user,
+    password: config.db.password,
+    database: config.db.name
+});
 
-var db_access = {
-    host     : config.db.host,
-    user     : config.db.username,
-    password : config.db.password,
-    database : config.db.dbname
-};
+db.connect(function(err) {
+    if (err) {
+        dbInitError = err;
+        dbInitError.title = 'There was an error connecting to the DB';
+    }
+});
 
-var conn = mysql.createConnection(db_access);
-
-// var mongo = require('mongodb');
-// var monk = require('monk');
-// var db = monk('localhost:27017/alumni-business-directory');
 
 var indexRouter = require('./routes/index');
 var listingsRouter = require('./routes/listings');
@@ -36,12 +44,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Make our db accessible to our router
+// Make our db, auth & config accessible to our router
 app.use(function(req,res,next){
-    req.db = conn;
+    req.dbInitError = dbInitError;
+    req.db = db;
+    req.auth = auth;
+    req.config = config;
     next();
 });
 
+// Enable POST & PUT JSON body
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use('/', indexRouter);
 app.use('/listings', listingsRouter);
 

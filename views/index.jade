@@ -1,91 +1,60 @@
 extends layout
 
 block content
+  input#inputSessionId(type='hidden', value="#{cookieId}")
+  input#inputPage(type='hidden', value="index")
+  input#isAdmin(type='hidden', value="#{isAdmin}")
+  input#inputUserId(type='hidden', value="#{userId}")
+  +nav('Alumni Business Directory', "dropdown_menu")
+    +nav_item( "/", "active" ) All Listings
+    +nav_item( "/my-listings", "" ) My Listings
+    +nav_item( "/verify", "hidden", "verifyLink" ) Verify Listings
+    +nav_item( "/report", "hidden", "reportLink" ) Report
+    +nav_item( "/logout", "", "logoutLink" ) Logout
   #welcome
     h1 Welcome to the SCU #{title}!
     br
 
-  // WRAPPER1
-  #wrapper
-  
-    // BUSINESS LISTING INFO
-    #listingInfo
-      h2 Selected Business Listing Info
-      p
-        strong Business Name:
-        |  <span id='listingInfoBusinessName'>N/A</span>
-        br
-        strong Owner Name:
-        |  <span id='listingInfoOwnerName'>N/A</span>
-        br
-        strong Grad Year:
-        |  <span id='listingInfoGradYear'>N/A</span>
-        br
-        strong Contact Email:
-        |  <span id='listingInfoEmail'>N/A</span>
-      br
-    // /BUSINESS LISTING INFO
-  
-    // ADD LISTING
-    #addListing
-      h2 Add Listing
-      fieldset
-        input#inputOwnerName(type='text', placeholder='Owner Name')
-        input#inputOwnerEmail(type='text', placeholder='Email')
-        br
-        input#inputGradYear(type='text', placeholder='Grad Year')
-        input#inputBusinessName(type='text', placeholder='Business Name')
-        br
-        input#inputLocation(type='text', placeholder='Business Location (City)')
-        input#inputDescription(type='text', placeholder='Description')
-        p Select Business Type: 
-        select#inputBusinessType(name='types')
-          option(value='Unselected') Unselected
-          option(value='Dining') Dining
-          option(value='Retail') Retail
-          option(value='Health Care') Manufacturing
-          option(value='Entertainment') Entertainment
-          option(value='Finance') Finance
-          option(value='Lifestyle') Lifestyle
-          option(value='Health Care') Health Care
-          option(value='Education') Education
-          option(value='Arts') Arts
-          option(value='Non-Profit') Non-Profit
-          option(value='Other') Other
-        br
-        br
-        button#btnAddListing Add Listing
-        br
-        br
-        br
-    // /ADD LISTING
-    
-    // FILTER LISTINGS
-    #filterListings
-      h2 Filter Listings
-      input#inputLocation(type='text', placeholder='Business Location (City)')
-      br
-      p Select Business Type:
-      select#inputBusinessType(name='types')
-        option(value='Unselected') Unselected
-        option(value='Dining') Dining
-        option(value='Retail') Retail
-        option(value='Manufacturing') Manufacturing
-        option(value='Entertainment') Entertainment
-        option(value='Finance') Finance
-        option(value='Lifestyle') Lifestyle
-        option(value='Health Care') Health Care
-        option(value='Education') Education
-        option(value='Arts') Arts
-        option(value='Non-Profit') Non-Profit
-        option(value='Other') Other
-      br
-      br
-      button#btnFilterListings Filter Listings
-      br
-      br
-    // /FILTER LISTINGS
-  // /WRAPPER1
+  .row
+    .col-md-5.col-sm-6.col-xs-12
+      // BUSINESS LISTING INFO
+      #listingInfo
+        +panel("Selected Business Listing Info")
+          strong Business Name:
+          |  <span id='listingInfoBusinessName'>N/A</span>
+          br
+          strong Owner Name:
+          |  <span id='listingInfoOwnerName'>N/A</span>
+          br
+          strong Grad Year:
+          |  <span id='listingInfoGradYear'>N/A</span>
+          br
+          strong Contact Email:
+          |  <span id='listingInfoEmail'>N/A</span>
+      // /BUSINESS LISTING INFO
+    .col-md-5.col-sm-6.col-xs-12
+      // FILTER LISTINGS
+      #filterListings
+        +panel("Filter Listings")
+          input#filterLocation(type='text', placeholder='Business Location (City)')
+          br
+          p Select Business Type:
+          select#filterBusinessType(name='types')
+            option(value='Unselected') Unselected
+            option(value='Dining') Dining
+            option(value='Retail') Retail
+            option(value='Manufacturing') Manufacturing
+            option(value='Entertainment') Entertainment
+            option(value='Finance') Finance
+            option(value='Lifestyle') Lifestyle
+            option(value='Health Care') Health Care
+            option(value='Education') Education
+            option(value='Arts') Arts
+            option(value='Non-Profit') Non-Profit
+            option(value='Other') Other
+          br
+      // /FILTER LISTINGS
+
 
   // BUSINESS LIST
   #businessList
@@ -93,10 +62,10 @@ block content
     table
       thead
         th Business Name
+        th Owner
         th Type of Business
         th Location
         th Business Description
-        th Delete?
       tbody
     br
   // /BUSINESS LIST
