@@ -1,6 +1,8 @@
 // Businesslist data array for filling in info box and for filtering listings
 var businessListData = [];
+
 var userReportData = [];
+
 function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
@@ -14,6 +16,7 @@ var userIdstr = "";
 $(document).ready(function () {
     // Populate the business list and unverified list table on initial page load
 
+    
     var page = ($('#inputPage').length ? $('#inputPage').val() : "");
     sessId = $('input#inputSessionId').val();
     userIdstr = $('input#inputUserId').val();
@@ -410,5 +413,3 @@ function goToPage(page, hideSessId) {
     // jQuery AJAX call for JSON
     location.href= page + (!hideSessId ? "?sessId=" + sessId : '');
 }
-
-

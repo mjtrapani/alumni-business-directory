@@ -62,7 +62,7 @@ router.get('/login', function (req, res, next) {
     }
 });
 
-/* GET login page. */
+/* GET create account page. */
 router.get('/create-account', function (req, res, next) {
     var dbInitError = req.dbInitError;
     if ((dbInitError === undefined) || (dbInitError === null)) {
@@ -75,7 +75,7 @@ router.get('/create-account', function (req, res, next) {
     }
 });
 
-
+// POST create account
 router.post('/create-account', function (req, res, next) {
     var db = req.db;
     var data = req.body;
@@ -140,7 +140,7 @@ router.get('/logout', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
     var db = req.db;
-    var data = req.body; 
+    var data = req.body;
     var email = data.username;
     var password = md5Hash.default(data.password);
     if (email !== "") {
