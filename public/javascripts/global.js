@@ -14,8 +14,6 @@ var userIdstr = "";
 
 // DOM Ready =============================================================
 $(document).ready(function () {
-    // Populate the business list and unverified list table on initial page load
-
 
     var page = ($('#inputPage').length ? $('#inputPage').val() : "");
     sessId = $('input#inputSessionId').val();
