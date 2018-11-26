@@ -78,6 +78,10 @@ $(document).ready(function () {
     $('#unverifiedBusinessList table tbody').on('click', 'td a.linkdenylisting', deleteListing);
     // unverifiedBusinessList Deny (Delete) Listing link click
     $('#businessList table tbody').on('click', 'td a.linkdenylisting', deleteListing);
+
+    $('#verifiedBusinessList table tbody').on('click', 'td a.linkdeletelisting', deleteListing);
+
+    $('#verifiedBusinessList table tbody').on('click', 'td a.linkshowlisting', showListingInfo);
 });
 
 // Functions =============================================================
@@ -209,7 +213,8 @@ function populateBusinessList() {
 
 function renderBusinessList() {
     // For each item in our JSON, add a table row and cells to the content string
-    var tableContent = '';
+    var tableContent1 = '';
+    var tableContent2 = '';
 
     var verify = $('input#inputPage').val() === "aomp";
     var myList = $('input#inputPage').val() === "my-listings";
@@ -217,34 +222,51 @@ function renderBusinessList() {
         var showRow = (myList ? (this.userId == userIdstr) : (verify ? this.verified === 0 : this.verified === 1));
         if (showRow) {
             if (this.matched === 1) {
-                tableContent += '<tr>';
-                tableContent += '<td><a href="#" class="linkshowlisting" rel="' + this.id + '">' + this.businessName + '</a></td>';
+                tableContent1 += '<tr>';
+                tableContent1 += '<td><a href="#" class="linkshowlisting" rel="' + this.id + '">' + this.businessName + '</a></td>';
                 if (!myList) {
-                    tableContent += '<td>' + this.ownerName + '</td>';
+                    tableContent1 += '<td>' + this.ownerName + '</td>';
                 }
-                tableContent += '<td>' + this.businessType + '</td>';
-                tableContent += '<td>' + this.location + '</td>';
-                tableContent += '<td>' + this.description + '</td>';
+                tableContent1 += '<td>' + this.businessType + '</td>';
+                tableContent1 += '<td>' + this.location + '</td>';
+                tableContent1 += '<td>' + this.description + '</td>';
                 if (verify || myList) {
-                    tableContent += '<td>' + this.created.substr(0, 10) + '</td>';
-                    tableContent += '<td>' + this.updated.substr(0, 10) + '</td>';
+                    tableContent1 += '<td>' + this.created.substr(0, 10) + '</td>';
+                    tableContent1 += '<td>' + this.updated.substr(0, 10) + '</td>';
                 }
                 if (verify) {
-                    tableContent += '<td><a href="#" class="linkapprovelisting" rel="' + this.id + '">APPROVE</a></td>';
-                    tableContent += '<td><a href="#" class="linkdenylisting" rel="' + this.id + '">DENY</a></td>';
+                    tableContent1 += '<td><a href="#" class="linkapprovelisting" rel="' + this.id + '">APPROVE</a></td>';
+                    tableContent1 += '<td><a href="#" class="linkdenylisting" rel="' + this.id + '">DENY</a></td>';
                 }
                 if (myList) {
-                    tableContent += '<td>' + (this.verified ? 'Yes' : 'No') + '</td>';
-                    tableContent += '<td><a href="#" class="linkdenylisting" rel="' + this.id + '">DELETE</a></td>';
+                    tableContent1 += '<td>' + (this.verified ? 'Yes' : 'No') + '</td>';
+                    tableContent1 += '<td><a href="#" class="linkdenylisting" rel="' + this.id + '">DELETE</a></td>';
                 }
-                tableContent += '</tr>';
+                tableContent1 += '</tr>';
+            }
+        }
+
+        if (this.verified === 1) {
+            if (this.matched === 1) {
+                tableContent2 += '<tr>';
+                tableContent2 += '<td><a href="#" class="linkshowlisting" rel="' + this.id + '">' + this.businessName + '</a></td>';
+                tableContent2 += '<td>' + this.businessType + '</td>';
+                tableContent2 += '<td>' + this.location + '</td>';
+                tableContent2 += '<td>' + this.description + '</td>';
+                tableContent2 += '<td>' + this.created.substr(0, 10) + '</td>';
+                tableContent2 += '<td>' + this.updated.substr(0, 10) + '</td>';
+                tableContent2 += '<td><a href="#" class="linkdeletelisting" rel="' + this.id + '">DELETE</a></td>';
+                tableContent2 += '</tr>';
             }
         }
     });
 
     var selector = '#' + (!verify ? 'businessList' : 'unverifiedBusinessList') + ' table tbody';
     // Inject the whole content string into our existing HTML table
-    $(selector).html(tableContent);
+    $(selector).html(tableContent1);
+
+    if (verify)
+        $('#verifiedBusinessList table tbody').html(tableContent2);
 }
 
 function getBusinessListingIndex(elmVal) {
