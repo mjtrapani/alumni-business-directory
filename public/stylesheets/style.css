@@ -27,32 +27,32 @@ a {
     float: left;
 }
 
-#businessList, #unverifiedBusinessList, #searchersReport {
+#businessList, #unverifiedBusinessList, #verifiedBusinessList, #searchersReport {
     display: inline-block;
     margin-right: 20px;
 }
 
-#businessList table, #unverifiedBusinessList table, #searchersReport table {
+#businessList table, #unverifiedBusinessList table, #verifiedBusinessList table, #searchersReport table {
     border-collapse: separate;
     border-spacing: 1px;
     background: #CCC;
 }
 
-#businessList table th, #unverifiedBusinessList table th, #searchersReport table th {
+#businessList table th, #unverifiedBusinessList table th, #verifiedBusinessList table th, #searchersReport table th {
     background: #EEE;
     font-weight: 600;
     padding: 10px 20px;
     text-align: center;
 }
 
-#businessList table tbody, #unverifiedBusinessList table tbody, #searchersReport table tbody {
+#businessList table tbody, #unverifiedBusinessList table tbody, #verifiedBusinessList table tbody, #searchersReport table tbody {
     padding: 0;
     margin: 0;
     border-collapse: collapse;
     border-spacing: 0px;
 }
 
-#businessList table td, #unverifiedBusinessList table td, #searchersReport table td {
+#businessList table td, #unverifiedBusinessList table td, #verifiedBusinessList table td, #searchersReport table td {
     background: #FFF;
     padding: 10px 10px;
     text-align: center;
@@ -108,6 +108,6 @@ fieldset {
     width: 100%;
 }
 
-#businessList, #businessList table, #unverifiedBusinessList, #unverifiedBusinessList table {
+#businessList, #businessList table, #unverifiedBusinessList, #unverifiedBusinessList table, #verifiedBusinessList, #verifiedBusinessList table{
     width: 100%;
 }
